@@ -11,7 +11,6 @@ Each task type has a dedicated handler method. The runner also handles:
 from __future__ import annotations
 
 import logging
-import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 

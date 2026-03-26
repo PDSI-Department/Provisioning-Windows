@@ -25,7 +25,6 @@ from PySide6.QtWidgets import (
 
 from app.core.orchestrator import Orchestrator
 from app.ui.theme import (
-    ACCENT,
     BG_SECONDARY,
     ERROR,
     FONT_MONO,
@@ -34,7 +33,6 @@ from app.ui.theme import (
     STATUS_COLORS,
     TEXT_MUTED,
     TEXT_SECONDARY,
-    WARNING,
 )
 
 

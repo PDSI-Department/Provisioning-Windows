@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 )
 
 from app.models.profile_definition import ProfileDefinition
-from app.ui.theme import ACCENT, BG_SECONDARY, BG_TERTIARY, BORDER, TEXT_MUTED, TEXT_SECONDARY
+from app.ui.theme import ACCENT, BG_SECONDARY, BORDER, TEXT_MUTED, TEXT_SECONDARY
 
 
 class ProfileScreen(QWidget):

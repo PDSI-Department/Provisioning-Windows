@@ -7,6 +7,7 @@ from a PyInstaller bundle (where sys._MEIPASS is set).
 
 from __future__ import annotations
 
+import shutil
 import sys
 from pathlib import Path
 
@@ -36,7 +37,19 @@ def get_data_dir() -> Path:
 
 
 def get_config_path() -> Path:
-    return get_app_root() / "config" / "app_config.json"
+    bundled = get_app_root() / "config" / "app_config.json"
+
+    # In bundled mode, prefer writable config next to executable.
+    if getattr(sys, "frozen", False):
+        writable = get_data_dir() / "config" / "app_config.json"
+        if writable.exists():
+            return writable
+        writable.parent.mkdir(parents=True, exist_ok=True)
+        if bundled.exists():
+            shutil.copy2(bundled, writable)
+        return writable
+
+    return bundled
 
 
 def get_bundled_profiles_dir() -> Path:

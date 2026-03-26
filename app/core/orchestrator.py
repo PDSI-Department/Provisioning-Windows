@@ -176,7 +176,7 @@ class Orchestrator(QThread):
 
             # Check detect rule
             if task_runner.check_detect_rule(task):
-                self._log(f"  → Skipped (already satisfied)")
+                self._log("  → Skipped (already satisfied)")
                 self._record_task(task, TaskStatus.SKIPPED, 0)
                 self.task_finished.emit(task.id, TaskStatus.SKIPPED, 0, "")
                 skipped += 1
@@ -198,7 +198,7 @@ class Orchestrator(QThread):
             else:
                 failed += 1
                 if not task.continue_on_error:
-                    self._log(f"  → ABORT: Task failed and continue_on_error=false")
+                    self._log("  → ABORT: Task failed and continue_on_error=false")
                     self._mark_remaining_cancelled(tasks[idx + 1:])
                     break
 

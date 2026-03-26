@@ -4,11 +4,10 @@ import json
 import tempfile
 from pathlib import Path
 
-import pytest
 
 from app.models.app_config import AppConfig
 from app.models.device_metadata import DeviceMetadata
-from app.models.enums import TaskStatus, TaskType
+from app.models.enums import TaskType
 from app.models.profile_definition import ProfileDefinition
 from app.models.task_definition import TaskDefinition
 

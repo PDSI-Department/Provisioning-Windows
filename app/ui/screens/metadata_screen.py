@@ -18,7 +18,6 @@ from PySide6.QtWidgets import (
 )
 
 from app.models.device_metadata import DeviceMetadata
-from app.ui.theme import TEXT_MUTED
 
 
 # Default departments — can be customized via config later

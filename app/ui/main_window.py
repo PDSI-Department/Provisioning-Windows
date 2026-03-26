@@ -9,9 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
-from pathlib import Path
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
@@ -23,6 +21,7 @@ from PySide6.QtWidgets import (
 
 from app.core.kit_detector import KitDetector, KitInfo
 from app.core.profile_loader import ProfileLoader
+from app.core.profile_manager_screen import ProfileManagerScreen
 from app.core.webhook import WebhookSender
 from app.db.database import Database
 from app.db.repository import Repository
@@ -32,16 +31,17 @@ from app.models.profile_definition import ProfileDefinition
 from app.ui.screens.execution_screen import ExecutionScreen
 from app.ui.screens.home_screen import HomeScreen
 from app.ui.screens.metadata_screen import MetadataScreen
+from app.ui.screens.package_manager_screen import PackageManagerScreen
 from app.ui.screens.profile_screen import ProfileScreen
 from app.ui.screens.review_screen import ReviewScreen
 from app.ui.screens.summary_screen import SummaryScreen
+from app.ui.screens.webhook_settings_screen import WebhookSettingsScreen
 from app.ui.theme import (
     ACCENT,
     BG_SECONDARY,
     FONT_MONO,
     FONT_SIZE_SM,
     TEXT_MUTED,
-    TEXT_SECONDARY,
 )
 from app.utils.paths import (
     get_bundled_packages_dir,
@@ -63,6 +63,9 @@ class MainWindow(QMainWindow):
     REVIEW = 3
     EXECUTION = 4
     SUMMARY = 5
+    PROFILE_MANAGER = 6
+    PACKAGE_MANAGER = 7
+    WEBHOOK_SETTINGS = 8
 
     def __init__(self):
         super().__init__()
@@ -125,6 +128,9 @@ class MainWindow(QMainWindow):
         self.review_screen = ReviewScreen(self)
         self.execution_screen = ExecutionScreen(self)
         self.summary_screen = SummaryScreen(self)
+        self.profile_manager_screen = ProfileManagerScreen(self)
+        self.package_manager_screen = PackageManagerScreen(self)
+        self.webhook_settings_screen = WebhookSettingsScreen(self)
 
         self.stack.addWidget(self.home_screen)     # 0
         self.stack.addWidget(self.profile_screen)  # 1
@@ -132,6 +138,9 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.review_screen)   # 3
         self.stack.addWidget(self.execution_screen)# 4
         self.stack.addWidget(self.summary_screen)  # 5
+        self.stack.addWidget(self.profile_manager_screen) # 6
+        self.stack.addWidget(self.package_manager_screen) # 7
+        self.stack.addWidget(self.webhook_settings_screen) # 8
 
         # Footer
         footer = self._build_footer()
@@ -200,6 +209,19 @@ class MainWindow(QMainWindow):
             except Exception as exc:
                 logger.error("Failed to load config: %s (using defaults)", exc)
         return AppConfig()
+
+    def save_config(self) -> None:
+        """Persist current app config to writable config path."""
+        config_path = get_config_path()
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = self.config.model_dump(mode="json")
+        config_path.write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        # Refresh runtime webhook sender with latest config
+        self.webhook_sender = WebhookSender(self.config.webhook, self.repo)
+        logger.info("Config saved: %s", config_path)
 
     def closeEvent(self, event):
         self.db.close()

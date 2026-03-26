@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QGridLayout,
     QHBoxLayout,
     QLabel,
     QPushButton,
@@ -57,6 +58,26 @@ class HomeScreen(QWidget):
         start_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         start_btn.clicked.connect(lambda: self.mw.navigate_to(self.mw.PROFILE))
         layout.addWidget(start_btn)
+
+        # Tools section
+        tools = QWidget()
+        tools_layout = QGridLayout(tools)
+        tools_layout.setContentsMargins(0, 0, 0, 0)
+        tools_layout.setSpacing(10)
+
+        profile_mgr = QPushButton("Manage Profiles")
+        profile_mgr.clicked.connect(lambda: self.mw.navigate_to(self.mw.PROFILE_MANAGER))
+        tools_layout.addWidget(profile_mgr, 0, 0)
+
+        package_mgr = QPushButton("Package Sources")
+        package_mgr.clicked.connect(lambda: self.mw.navigate_to(self.mw.PACKAGE_MANAGER))
+        tools_layout.addWidget(package_mgr, 0, 1)
+
+        webhook_cfg = QPushButton("Webhook Settings")
+        webhook_cfg.clicked.connect(lambda: self.mw.navigate_to(self.mw.WEBHOOK_SETTINGS))
+        tools_layout.addWidget(webhook_cfg, 0, 2)
+
+        layout.addWidget(tools)
 
         # Recent runs section
         section = QLabel("Recent Runs")
