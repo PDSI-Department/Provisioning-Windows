@@ -1,0 +1,25 @@
+{
+  "kit_name": "Deepublish IT Provisioning Kit",
+  "kit_version": "2026.03",
+  "created_by": "IT Support Team",
+  "created_at": "2026-03-20T10:00:00+07:00",
+  "description": "SSD provisioning kit berisi installer, profile, dan script untuk setup PC Deepublish",
+  "profiles_dir": "profiles",
+  "packages_dir": "packages",
+  "scripts_dir": "scripts",
+  "profiles": [
+    "staff-office.json",
+    "designer.json",
+    "developer.json"
+  ],
+  "packages": [
+    "GoogleChrome",
+    "SevenZip",
+    "AdobeReader",
+    "VLC",
+    "LibreOffice",
+    "AnyDesk",
+    "WinRAR",
+    "VSCode"
+  ]
+}

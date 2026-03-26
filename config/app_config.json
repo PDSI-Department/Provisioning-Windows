@@ -1,0 +1,35 @@
+{
+  "app": {
+    "name": "WinProv",
+    "version": "0.1.0",
+    "log_level": "INFO",
+    "log_dir": "logs",
+    "db_path": "data/winprov.db"
+  },
+  "provisioning": {
+    "default_task_timeout_seconds": 300,
+    "max_parallel_tasks": 1,
+    "continue_on_error_default": false,
+    "collect_inventory_after_run": true
+  },
+  "webhook": {
+    "enabled": true,
+    "url": "https://hooks.example.com/provisioning",
+    "timeout_seconds": 30,
+    "max_retries": 5,
+    "retry_interval_seconds": 60,
+    "headers": {
+      "X-Source": "winprov"
+    }
+  },
+  "kit": {
+    "marker_filename": ".winprov-kit",
+    "manifest_filename": "manifest.json",
+    "scan_removable_only": true
+  },
+  "ui": {
+    "theme": "dark",
+    "window_width": 1100,
+    "window_height": 750
+  }
+}

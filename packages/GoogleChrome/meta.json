@@ -1,0 +1,26 @@
+{
+  "package_id": "GoogleChrome",
+  "name": "Google Chrome",
+  "version": "latest",
+  "description": "Google Chrome web browser",
+  "publisher": "Google LLC",
+  "install_type": "exe_installer",
+  "installer": {
+    "filename": "ChromeSetup.exe",
+    "arguments": "/silent /install",
+    "exit_codes": {
+      "success": [0],
+      "reboot_required": [3010]
+    }
+  },
+  "winget_id": "Google.Chrome",
+  "detect_rule": {
+    "type": "path_exists",
+    "value": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+  },
+  "uninstall": {
+    "type": "winget",
+    "winget_id": "Google.Chrome"
+  },
+  "tags": ["browser", "essential"]
+}

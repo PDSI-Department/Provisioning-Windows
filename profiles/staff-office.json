@@ -1,0 +1,138 @@
+{
+  "profile_id": "staff-office",
+  "name": "Staff Office",
+  "description": "Profile standar untuk staff kantor — office suite, browser, utility dasar",
+  "icon": "briefcase",
+  "version": "1.0.0",
+  "author": "IT Support",
+  "tasks": [
+    {
+      "id": "rename-hostname",
+      "name": "Rename Hostname",
+      "type": "powershell_script",
+      "path": "scripts/rename_hostname.ps1",
+      "arguments": {
+        "Hostname": "{{hostname}}"
+      },
+      "timeout": 60,
+      "retry_count": 0,
+      "detect_rule": null,
+      "requires_admin": true,
+      "continue_on_error": false,
+      "enabled": true,
+      "order": 10
+    },
+    {
+      "id": "install-chrome",
+      "name": "Install Google Chrome",
+      "type": "exe_installer",
+      "package_ref": "GoogleChrome",
+      "timeout": 180,
+      "retry_count": 1,
+      "detect_rule": {
+        "type": "path_exists",
+        "value": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 20
+    },
+    {
+      "id": "install-7zip",
+      "name": "Install 7-Zip",
+      "type": "exe_installer",
+      "package_ref": "SevenZip",
+      "timeout": 120,
+      "retry_count": 1,
+      "detect_rule": {
+        "type": "path_exists",
+        "value": "C:\\Program Files\\7-Zip\\7z.exe"
+      },
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 30
+    },
+    {
+      "id": "install-libreoffice",
+      "name": "Install LibreOffice (winget)",
+      "type": "winget_install",
+      "winget_id": "TheDocumentFoundation.LibreOffice",
+      "timeout": 600,
+      "retry_count": 1,
+      "detect_rule": {
+        "type": "winget_list",
+        "value": "TheDocumentFoundation.LibreOffice"
+      },
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 40
+    },
+    {
+      "id": "configure-power",
+      "name": "Configure Power Settings",
+      "type": "powershell_script",
+      "path": "scripts/configure_power.ps1",
+      "arguments": {},
+      "timeout": 60,
+      "retry_count": 0,
+      "detect_rule": null,
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 50
+    },
+    {
+      "id": "disable-sleep-on-ac",
+      "name": "Disable Sleep on AC Power",
+      "type": "powershell_command",
+      "command": "powercfg /change standby-timeout-ac 0",
+      "timeout": 30,
+      "retry_count": 0,
+      "detect_rule": null,
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 60
+    },
+    {
+      "id": "enable-rdp",
+      "name": "Enable Remote Desktop",
+      "type": "powershell_command",
+      "command": "Set-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server' -Name 'fDenyTSConnections' -Value 0; Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'",
+      "timeout": 30,
+      "retry_count": 0,
+      "detect_rule": null,
+      "requires_admin": true,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 70
+    },
+    {
+      "id": "collect-inventory",
+      "name": "Collect Device Inventory",
+      "type": "inventory_collection",
+      "timeout": 120,
+      "retry_count": 0,
+      "detect_rule": null,
+      "requires_admin": false,
+      "continue_on_error": false,
+      "enabled": true,
+      "order": 900
+    },
+    {
+      "id": "send-webhook",
+      "name": "Send Provisioning Report",
+      "type": "webhook",
+      "timeout": 30,
+      "retry_count": 3,
+      "detect_rule": null,
+      "requires_admin": false,
+      "continue_on_error": true,
+      "enabled": true,
+      "order": 999
+    }
+  ]
+}

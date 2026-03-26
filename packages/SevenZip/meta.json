@@ -1,0 +1,27 @@
+{
+  "package_id": "SevenZip",
+  "name": "7-Zip",
+  "version": "24.09",
+  "description": "7-Zip file archiver",
+  "publisher": "Igor Pavlov",
+  "install_type": "exe_installer",
+  "installer": {
+    "filename": "7z2409-x64.exe",
+    "arguments": "/S",
+    "exit_codes": {
+      "success": [0],
+      "reboot_required": []
+    }
+  },
+  "winget_id": "7zip.7zip",
+  "detect_rule": {
+    "type": "path_exists",
+    "value": "C:\\Program Files\\7-Zip\\7z.exe"
+  },
+  "uninstall": {
+    "type": "path_exec",
+    "path": "C:\\Program Files\\7-Zip\\Uninstall.exe",
+    "arguments": "/S"
+  },
+  "tags": ["utility", "essential"]
+}
