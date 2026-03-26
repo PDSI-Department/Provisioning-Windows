@@ -461,6 +461,10 @@ class TaskEditDialog(QDialog):
             idx = self.f_type.findText(self._data["type"])
             if idx >= 0:
                 self.f_type.setCurrentIndex(idx)
+        else:
+            idx = self.f_type.findText(TaskType.EXE_INSTALLER.value)
+            if idx >= 0:
+                self.f_type.setCurrentIndex(idx)
         self.f_type.currentTextChanged.connect(self._on_type_change)
         form.addRow("Type:", self.f_type)
 
@@ -468,6 +472,8 @@ class TaskEditDialog(QDialog):
         self.f_package.addItem("(none)", "")
         for pkg in packages:
             self.f_package.addItem(f"{pkg.name} ({pkg.package_id})", pkg.package_id)
+        if not packages:
+            self.f_package.addItem("No package found (import dari Package Sources)", "")
         if self._data.get("package_ref"):
             idx = self.f_package.findData(self._data["package_ref"])
             if idx >= 0:

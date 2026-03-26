@@ -1,14 +1,18 @@
 param(
-    [Parameter(Mandatory=$true)]
     [string]$Hostname
 )
 
 $ErrorActionPreference = 'Stop'
 
 try {
+    if ([string]::IsNullOrWhiteSpace($Hostname)) {
+        Write-Output "Hostname is empty - skipping rename"
+        exit 0
+    }
+
     $current = $env:COMPUTERNAME
     if ($current -eq $Hostname) {
-        Write-Output "Hostname already set to $Hostname — skipping"
+        Write-Output "Hostname already set to $Hostname - skipping"
         exit 0
     }
 

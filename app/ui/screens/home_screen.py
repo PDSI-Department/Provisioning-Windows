@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
     QLabel,
+    QMessageBox,
     QPushButton,
     QScrollArea,
     QVBoxLayout,
@@ -56,7 +57,7 @@ class HomeScreen(QWidget):
         start_btn.setObjectName("primaryButton")
         start_btn.setFixedHeight(48)
         start_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        start_btn.clicked.connect(lambda: self.mw.navigate_to(self.mw.PROFILE))
+        start_btn.clicked.connect(self._start_new_provisioning)
         layout.addWidget(start_btn)
 
         # Tools section
@@ -151,6 +152,19 @@ class HomeScreen(QWidget):
         for run in runs:
             row = self._build_run_row(run)
             self.runs_layout.addWidget(row)
+
+    def _start_new_provisioning(self):
+        """Start flow; if no profile exists, send user to profile manager first."""
+        profiles = self.mw.profile_loader.load_profiles()
+        if profiles:
+            self.mw.navigate_to(self.mw.PROFILE)
+            return
+        QMessageBox.information(
+            self,
+            "Profile Belum Ada",
+            "Belum ada profile provisioning. Silakan buat profile dulu.",
+        )
+        self.mw.navigate_to(self.mw.PROFILE_MANAGER)
 
     def _build_run_row(self, run: dict) -> QWidget:
         row = QWidget()

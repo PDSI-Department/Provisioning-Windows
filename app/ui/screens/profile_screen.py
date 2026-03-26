@@ -70,10 +70,15 @@ class ProfileScreen(QWidget):
             self.grid_layout.addWidget(card, row, col)
 
         if not profiles:
-            empty = QLabel("No profiles available. Check bundled profiles or connect SSD kit.")
+            empty = QLabel("No profiles available. Buat profile baru terlebih dahulu.")
             empty.setStyleSheet(f"color: {TEXT_MUTED}; padding: 40px;")
             empty.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.grid_layout.addWidget(empty, 0, 0, 1, 3)
+
+            create_btn = QPushButton("Open Profile Manager")
+            create_btn.setObjectName("primaryButton")
+            create_btn.clicked.connect(lambda: self.mw.navigate_to(self.mw.PROFILE_MANAGER))
+            self.grid_layout.addWidget(create_btn, 1, 0, 1, 3, Qt.AlignmentFlag.AlignHCenter)
 
     def _build_profile_card(self, profile: ProfileDefinition) -> QWidget:
         card = QWidget()
