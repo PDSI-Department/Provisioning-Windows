@@ -47,8 +47,6 @@ a = Analysis(
     excludes=[
         'tkinter',
         'unittest',
-        'email',
-        'xml',
     ],
     noarchive=False,
     optimize=1,
