@@ -17,19 +17,21 @@ from pathlib import Path
 
 block_cipher = None
 root = Path(os.path.abspath(SPECPATH))
+datas = [
+    # Bundle JSON configs, profiles, packages, scripts
+    (str(root / 'config'), 'config'),
+    (str(root / 'profiles'), 'profiles'),
+    (str(root / 'packages'), 'packages'),
+    (str(root / 'scripts'), 'scripts'),
+]
+if (root / 'assets').exists():
+    datas.append((str(root / 'assets'), 'assets'))
 
 a = Analysis(
     [str(root / 'main.py')],
     pathex=[str(root)],
     binaries=[],
-    datas=[
-        # Bundle JSON configs, profiles, packages, scripts
-        (str(root / 'config'), 'config'),
-        (str(root / 'profiles'), 'profiles'),
-        (str(root / 'packages'), 'packages'),
-        (str(root / 'scripts'), 'scripts'),
-        (str(root / 'assets'), 'assets'),
-    ],
+    datas=datas,
     hiddenimports=[
         'pydantic',
         'httpx',
